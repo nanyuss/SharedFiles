@@ -15,10 +15,6 @@ files_db = ClusterManagerFiles()
 MAX_FILE_SIZE = 52428800
 AUTHORIZATION = config('AUTHORIZATION')
 
-def verify_auth(auth: str):
-    if auth != f"{AUTHORIZATION}":
-        raise HTTPException(status_code=401, detail="Sem autorização")
-
 @router.get(
     '/clusters',
     response_model=list[ClustersInfoResponse],
@@ -26,9 +22,11 @@ def verify_auth(auth: str):
     description=ClustersInfo.description,
     responses=ClustersInfo.responses,
     tags= ClustersInfo.tags,
-    dependencies=[Depends(verify_auth)]
 )
-async def get_clusters_status():
+async def get_clusters_status(auth: str = Header()):
+    if auth != f"{AUTHORIZATION}":
+        raise HTTPException(status_code=401, detail="Sem autorização")
+
     try:
         status = await files_db.get_clusters_status()
         return JSONResponse(content=status)
@@ -42,7 +40,6 @@ async def get_clusters_status():
         description=GetAllFilesInfo.description,
         responses=GetAllFilesInfo.responses,
         tags=GetAllFilesInfo.tags,
-        dependencies=[Depends(verify_auth)]
     )
 async def file_list():
     files = await files_db.get_all_files()
@@ -53,10 +50,11 @@ async def file_list():
         summary=UploadFileInfo.name,
         description=UploadFileInfo.description,
         responses=UploadFileInfo.responses,
-        tags=UploadFileInfo.tags,
-        dependencies=[Depends(verify_auth)]
+        tags=UploadFileInfo.tags
     )
-async def upload_file(file: UploadFile = File(), filename: str = Form(None)):
+async def upload_file(file: UploadFile = File(), auth: str = Header(), filename: str = Form(None)):
+    if auth != f"{AUTHORIZATION}":
+        raise HTTPException(status_code=401, detail="Sem autorização")
     
     content = await file.read()
     if int(file.size) > MAX_FILE_SIZE:
@@ -110,10 +108,12 @@ async def get_file(file_id: str):
     summary=DeleteFileInfo.name,
     description=DeleteFileInfo.description,
     responses=DeleteFileInfo.responses,
-    tags=DeleteFileInfo.tags,
-    dependencies=[Depends(verify_auth)]
+    tags=DeleteFileInfo.tags
 )
-async def delete_file(file_id: str):
+async def delete_file(file_id: str, auth: str = Header()):
+    if auth != f"{AUTHORIZATION}":
+        raise HTTPException(status_code=401, detail="Sem autorização")
+        
     try:
         deleted = files_db.delete_file(file_id)
         if deleted:
