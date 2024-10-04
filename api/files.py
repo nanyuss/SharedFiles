@@ -106,7 +106,7 @@ async def get_file(file_id: str):
         raise HTTPException(status_code=500, detail=f"Erro ao acessar arquivo: {str(e)}")
 
 @router.delete(
-    "/files/{file_id}",
+    "/{file_id}",
     summary=DeleteFileInfo.name,
     description=DeleteFileInfo.description,
     responses=DeleteFileInfo.responses,
