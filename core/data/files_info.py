@@ -89,8 +89,7 @@ class ClustersInfo:
             'content': {
                 'application/json': {
                     'example': {
-                        'total_clusters': 4,
-                        'clusters': [
+                        [
                             {
                                 'name': 'Cluster 1',
                                 'storage': {

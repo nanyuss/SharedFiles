@@ -4,14 +4,10 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from api import files
 
 app = FastAPI(
-    title='File Upload API',
+    title='ClientAPI',
     version='1.0.0',
     docs_url=None,
     redoc_url=None,
-    license_info={
-        'name': 'MIT',
-        'url': 'https://opensource.org/licenses/MIT'
-    }
 )
 
 @app.get("/", include_in_schema=False)

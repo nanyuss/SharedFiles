@@ -167,7 +167,7 @@ class ClusterManagerFiles:
                             'used': self._convert_size(used_size),
                             'total': self._convert_size(self.max_size),
                         },
-                        'avarage_file_size': self._get_average_file_size(db),
+                        'average_file_size': self._get_average_file_size(db),
                         'files_count': {
                             'by_type': self._get_files_count_by_type(db),
                             'total': self._get_num_files(db)
