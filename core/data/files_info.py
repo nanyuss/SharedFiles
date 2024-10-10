@@ -88,46 +88,44 @@ class ClustersInfo:
             'description': 'As informações de status de cada cluster foram recuperadas com sucesso.',
             'content': {
                 'application/json': {
-                    'example': {
-                        [
-                            {
-                                'name': 'Cluster 1',
-                                'storage': {
-                                    'avaliable': '256 MB',
-                                    'used': '256 MB',
-                                    'total': '512 MB'
-                                },
-                                'average_file_size': '2 MB',
-                                'files_count': {
-                                    'by_type': {
-                                        'image/jpeg': 50,
-                                        'application/pdf': 30,
-                                        'video/mp4': 20
-                                    },
-                                    'total': 100
-                                },
-                                'status': 'OK'
+                    'example': [
+                        {
+                            'name': 'Cluster 1',
+                            'storage': {
+                                'avaliable': '256 MB',
+                                'used': '256 MB',
+                                'total': '512 MB'
                             },
-                            {
-                                'name': 'Cluster 2',
-                                'storage': {
-                                    'avaliable': '212 MB',
-                                    'used': '300 MB',
-                                    'total': '512 MB'
+                            'average_file_size': '2 MB',
+                            'files_count': {
+                                'by_type': {
+                                    'image/jpeg': 50,
+                                    'application/pdf': 30,
+                                    'video/mp4': 20
                                 },
-                                'average_file_size': '2.5 MB',
-                                'files_count': {
-                                    'by_type': {
-                                        'image/png': 75,
-                                        'application/docx': 40,
-                                        'text/plain': 35
-                                    },
-                                    'total': 150
+                                'total': 100
+                            },
+                            'status': 'OK'
+                        },
+                        {
+                            'name': 'Cluster 2',
+                            'storage': {
+                                'avaliable': '212 MB',
+                                'used': '300 MB',
+                                'total': '512 MB'
+                            },
+                            'average_file_size': '2.5 MB',
+                            'files_count': {
+                                'by_type': {
+                                    'image/png': 75,
+                                    'application/docx': 40,
+                                    'text/plain': 35
                                 },
-                                'status': 'OK'
-                            }
-                        ]
-                    }
+                                'total': 150
+                            },
+                            'status': 'OK'
+                        }
+                    ]
                 }
             }
         },
