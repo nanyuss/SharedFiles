@@ -1,8 +1,6 @@
-import pymongo
 from pymongo import MongoClient
 from pymongo.database import Database, Collection
 from gridfs import GridFS
-from uuid import uuid4
 from decouple import config
 
 import pytz
@@ -66,7 +64,7 @@ class ClusterManagerFiles:
                     'url': f'{config("DEFAULT_URL")}/api/files/{file._id}' 
                 }
                 return file_info, file
-        except Exception as e:
+        except Exception:
             pass
         return None, None
     
@@ -127,7 +125,7 @@ class ClusterManagerFiles:
             try:
                 fs.delete(file_id)
                 return True
-            except:
+            except Exception:
                 pass
         return False
     

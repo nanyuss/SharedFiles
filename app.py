@@ -4,7 +4,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from api import files
 
 app = FastAPI(
-    title='ClientAPI',
+    title='Shared Files',
     version='1.0.0',
     docs_url=None,
     redoc_url=None,
@@ -23,4 +23,5 @@ app.include_router(files.router)
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=80)
+    #uvicorn.run(app, host="0.0.0.0", port=80)
+    uvicorn.run(app, host="127.0.0.1", port=80)
