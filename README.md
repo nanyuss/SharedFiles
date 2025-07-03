@@ -1,110 +1,167 @@
-# 📂 SharedFiles  
 
-SharedFiles é uma API simples para compartilhamento e gerenciamento de arquivos. Este projeto fornece endpoints para upload, listagem, acesso e remoção de arquivos, utilizando **FastAPI** e armazenamento no **MongoDB**.  
+# 📂 SharedFiles
 
-## 🚀 Tecnologias Utilizadas  
+> API REST para compartilhamento, listagem e gerenciamento de arquivos usando FastAPI e MongoDB (com fallback para SQLite).
 
-- **FastAPI** - Framework web para construção da API.  
-- **MongoDB** - Banco de dados NoSQL para armazenar metadados dos arquivos.  
-- **Python** - Linguagem principal do projeto.  
+---
 
-## 📌 Funcionalidades  
+## 🚀 Tecnologias Utilizadas
 
-- 📤 **Upload de arquivos (até 50MB)**  
-- 📜 **Listagem de arquivos armazenados**  
-- 🔍 **Acesso direto ao conteúdo dos arquivos**  
-- 🗑️ **Remoção de arquivos**  
-- 📊 **Monitoramento de clusters de armazenamento**  
+- **FastAPI** — Framework web rápido para criação de APIs.
+- **MongoDB** — Armazenamento NoSQL para arquivos (via GridFS).
+- **SQLite** — Alternativa local para testes e fallback.
+- **Python 3.11+** — Linguagem principal do projeto.
 
-## 📦 Estrutura do Projeto  
+---
+
+## 📌 Funcionalidades
+
+- 📤 Upload de arquivos (limite de 50MB, mas pode ser configurado no `.env`)
+- 📜 Listagem completa de arquivos armazenados
+- 🔍 Acesso direto ao conteúdo via ID
+- 🗑️ Remoção de arquivos pelo ID
+- 📊 Monitoramento de clusters MongoDB (caso configurado)
+- 🧩 Suporte tanto a MongoDB quanto SQLite para ambientes variados
+
+---
+
+## 📦 Estrutura do Projeto
 
 ```
 SharedFiles/
-│── api/
-│   ├── files.py
-│── core/
-│   ├── database.py
-│   ├── schemas/
-│   │   ├── file.py
-│   ├── data/
-│   │   ├── files_info.py
-│── app.py
 │── example.env
+│── main.py
+│── env.py
+│── init.sql
 │── requirements.txt
-│── .gitignore
-│── README.md
-```  
+│── LICENSE
+│
+└── src/
+    ├── app.py
+    ├── api/
+    │   └── files/
+    │       ├── router.py
+    │       └── docs.py
+    ├── database/
+    │   ├── client.py
+    │   ├── mongo.py
+    │   ├── sqlite.py
+    │   └── utils.py
+    └── schemas/
+        └── file.py
+```
 
-## ⚙️ Configuração  
+---
 
-### 1️⃣ Pré-requisitos  
+## ⚙️ Configuração
 
-- **Python 3.12.0** ou superior  
-- **MongoDB** instalado ou disponível em um servidor remoto  
+### 1️⃣ Pré-requisitos
 
-### 2️⃣ Instalação  
+- **Python 3.11.0** ou superior
+- **MongoDB local ou remoto** (opcional se for usar SQLite apenas)
 
-Clone o repositório:  
+### 2️⃣ Instalação
+
+Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/SharedFiles.git
+git clone https://github.com/nanyuss/SharedFiles.git
 cd SharedFiles
-```  
+```
 
-Crie e ative um ambiente virtual (opcional, mas recomendado):  
+Crie e ative o ambiente virtual (Opcional, mas recomendado):
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # No Windows, use: venv\Scripts\activate
-```  
+source venv/bin/activate  # No Windows: venv\Scripts\activate
+```
 
-Instale as dependências:  
+Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
-```  
-
-### 3️⃣ Configuração do Banco de Dados  
-
-Crie um arquivo `.env` baseado no `example.env` e defina suas credenciais:  
-
 ```
-AUTHORIZATION="222a1c3d9e2e42e3982403a8efc8c596"
-DEFAULT_URL="http://127.0.0.1"
-MONGO_URI="mongodb://localhost:27017"
 
-MONGO_URI_FILES_1 = "mongodb://localhost:27017"
-MONGO_URI_FILES_2 = "mongodb://localhost:27017"
-MONGO_URI_FILES_3 = "mongodb://localhost:27017"
-MONGO_URI_FILES_4 = "mongodb://localhost:27017"
-```  
+### 3️⃣ Variáveis de Ambiente
 
-### 4️⃣ Executando o Projeto  
+Crie um arquivo `.env` baseado no `example.env`:
 
-Inicie o servidor FastAPI:  
+```env
+# Token de autorização para rotas protegidas
+AUTHORIZATION=222a1c3d9e2e42e3982403a8efc8c596
+
+# Tamanho máximo de upload (em bytes)
+MAX_FILE_SIZE=52428800
+
+# MongoDB principal (opcional se usar apenas SQLite)
+MONGO_URI=
+
+# Clusters distribuídos (para uso com GridFS)
+MONGO_URI_FILES_PHOENIX=
+MONGO_URI_FILES_NANO=
+MONGO_URI_FILES_STAR=
+MONGO_URI_FILES_CAT=
+```
+
+---
+
+## ▶️ Execução do Projeto
+
+Execute o servidor FastAPI com:
 
 ```bash
-py app.py
-```  
+python main.py
+```
 
-Agora, acesse a documentação interativa da API no navegador:  
+Acesse a documentação interativa da API:
 
-- **Swagger UI**: [http://127.0.0.1](http://127.0.0.1)    
+- [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## 🖥️ Endpoints da API  
+---
 
-| Método  | Endpoint                 | Descrição  |
-|---------|---------------------------|-------------------------------------|
-| `GET`   | `/api/files/clusters`      | Retorna informações sobre os clusters de armazenamento, incluindo espaço disponível e estatísticas de arquivos. |
-| `POST`  | `/api/files/upload`        | Faz o upload de um arquivo para o servidor (máx. 50 MB). |
-| `GET`   | `/api/files`               | Lista todos os arquivos armazenados. |
-| `GET`   | `/api/files/{file_id}`      | Obtém o conteúdo de um arquivo pelo ID. |
-| `DELETE` | `/api/files/{file_id}`     | Remove um arquivo do servidor pelo ID. |
+## 🖥️ Endpoints da API
 
-## 🤝 Contribuições  
+| Método   | Rota                     | Descrição                                                              |
+|----------|--------------------------|-------------------------------------------------------------------------|
+| `GET`    | `/files`                 | Lista todos os arquivos armazenados.                                   |
+| `GET`    | `/files/{file_id}`       | Obtém o conteúdo de um arquivo específico.                             |
+| `POST`   | `/files/upload`          | Faz upload de um novo arquivo.                                         |
+| `DELETE` | `/files/{file_id}`       | Remove o arquivo correspondente ao ID.                                 |
+| `GET`    | `/files/clusters`        | Retorna informações e status dos clusters de armazenamento (MongoDB).  |
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests no repositório.  
+---
 
-## 📜 Licença  
+## 📘 Exemplo de Resposta
 
-Este projeto está licenciado sob a **MIT License**.
+### `GET /files`
+
+```json
+[
+  {
+    "file_id": "66a0e6faedc1...",
+    "filename": "imagem.png",
+    "size": 39200,
+    "cluster": "PHOENIX",
+    "uploaded_at": "2025-07-02T18:22:10Z"
+  }
+]
+```
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+---
+
+## 📜 Licença
+
+Distribuído sob a licença **MIT**. Veja `LICENSE` para mais detalhes.
+
+---
+
+## 🧠 Inspiração
+
+Este projeto foi inspirado no **[ADG Share](https://github.com/euandrelucas/adg-share)**, um servidor de compartilhamento de arquivos criado por André Lucas (@euandrelucas), desenvolvido com Node.js, Fastify e Prisma.  
+SharedFiles busca replicar a ideia central — upload, download e controle de tamanho — mas com foco em modularidade, suporte a múltiplos clusters MongoDB, abstração para SQLite e escrita em Python com FastAPI.
