@@ -16,7 +16,7 @@ class UploadFileInfo:
                 'application/json': {
                     'example': {
                         'file_id': 'e8f6a274-c8f1-4b87-919e-24e73e4f6fa6.png',
-                        'url': 'http://127.0.0.1/api/files/e8f6a274-c8f1-4b87-919e-24e73e4f6fa6.png'
+                        'url': 'http://127.0.0.1/files/e8f6a274-c8f1-4b87-919e-24e73e4f6fa6.png'
                     }
                 }
             }
@@ -51,7 +51,7 @@ class GetAllFilesInfo:
                             'mimetype': 'image/png',
                             'size': '107014',
                             'upload_date': '03-10-2024 23:13:12',
-                            'url': 'http://127.0.0.1/api/files/365952d5-3295-475d-9ba4-ac4d080bab0b.png'
+                            'url': 'http://127.0.0.1/files/365952d5-3295-475d-9ba4-ac4d080bab0b.png'
                         }
                     ]
                 }
