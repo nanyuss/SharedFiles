@@ -138,11 +138,12 @@ Acesse a documentação interativa da API:
 ```json
 [
   {
-    "file_id": "66a0e6faedc1...",
-    "filename": "imagem.png",
-    "size": 39200,
-    "cluster": "PHOENIX",
-    "uploaded_at": "2025-07-02T18:22:10Z"
+    'file_id': '365952d5-3295-475d-9ba4-ac4d080bab0b.png',
+    'filename': 'file.png',
+    'mimetype': 'image/png',
+    'size': '107014',
+    'upload_date': '03-10-2024 23:13:12',
+    'url': 'http://127.0.0.1/api/files/365952d5-3295-475d-9ba4-ac4d080bab0b.png'
   }
 ]
 ```
